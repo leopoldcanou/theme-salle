@@ -1,15 +1,18 @@
 // sample events for testing
 let chartConfig = {
   type: 'bar',
+  plot: {
+    styles: ["red", "orange", "yellow", "green", "blue", "purple", "brown", "black"] /* Bar Fill by Node */
+  },
+  'scale-x': {
+    label: { /* Scale Title */
+      text: "Le nombre d'heure par salle",
+    },
+    labels: ["R01", "R02", "R03", "R04", "101", "102", "103", "115", "ADM"] /* Scale Labels */
+  },
   series: [{
-    values: [20, 40, 25, 50, 15, 45, 33, 34]
+    values: [20, 45, 25, 5, 10, 15, 20, 25, 30]
   },
-  {
-    values: [5, 30, 21, 18, 59, 50, 28, 33]
-  },
-  {
-    values: [30, 5, 18, 21, 33, 41, 29, 15]
-  }
   ]
 };
 
