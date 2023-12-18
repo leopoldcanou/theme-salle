@@ -3,7 +3,7 @@ import { V } from "./js/view.js";
 
 zingchart.render({
   id: "myChart",
-  data: V.classcalendar,
+  data: V.classcalendar, // on appelle V.classcalendar qui est dans view.js
   height: "100%",
   width: "100%",
 });
