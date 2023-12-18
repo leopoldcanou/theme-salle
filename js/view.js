@@ -1,4 +1,5 @@
-let V = {
+let V = {};
+V.classcalendar = {
   type: "bar",
   plot: {
     styles: [
