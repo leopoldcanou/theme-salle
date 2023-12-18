@@ -22,3 +22,6 @@ zingchart.render({
   height: '100%',
   width: '100%'
 });
+
+// recuperate the start time from each event from the data/mmi1.ics file
+
