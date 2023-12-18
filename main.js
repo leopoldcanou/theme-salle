@@ -2,7 +2,7 @@
 let chartConfig = {
   type: 'bar',
   plot: {
-    styles: ["red", "orange", "yellow", "green", "blue", "purple", "brown", "black"] /* Bar Fill by Node */
+    styles: ["#33a8c7", "#52e3e1", "#a0e426", "#fdf148", "#ffab00", "#f77976", "#f050ae", "#d883ff", "#9336fd"] /* Bar Fill by Node */
   },
   'scale-x': {
     label: { /* Scale Title */
