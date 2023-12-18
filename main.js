@@ -8,7 +8,7 @@ let chartConfig = {
     label: { /* Scale Title */
       text: "Le nombre d'heure par salle",
     },
-    labels: ["R01", "R02", "R03", "R04", "101", "102", "103", "115", "ADM"] /* Scale Labels */
+    labels: ["R01", "R02", "R03", "R04", "101", "102", "103", "115", "ADM132"] /* Scale Labels */
   },
   series: [{
     values: [20, 45, 25, 5, 10, 15, 20, 25, 30]
