@@ -1,5 +1,13 @@
 import { V } from "./js/view.js";
-// sample events for testing
+
+// Objet qui contient les données du graphique
+let seriesObj1 = [
+  {
+    values: [20, 45, 25, 5, 10, 15, 20, 25, 30],
+  },
+];
+
+V.classcalendar.series = seriesObj1;
 
 zingchart.render({
   id: "myChart",

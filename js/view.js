@@ -32,11 +32,7 @@ V.classcalendar = {
       "ADM132",
     ] /* Scale Labels */,
   },
-  series: [
-    {
-      values: [20, 45, 25, 5, 10, 15, 20, 25, 30],
-    },
-  ],
+  series: [],
 };
 
 export { V };
