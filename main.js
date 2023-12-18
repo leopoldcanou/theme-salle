@@ -7,7 +7,7 @@ let seriesObj1 = [
   },
 ];
 
-V.classcalendar.series = seriesObj1;
+V.classcalendar.series = seriesObj1; // on ajoute les données au graphique
 
 zingchart.render({
   id: "myChart",
