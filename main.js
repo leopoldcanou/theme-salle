@@ -1,4 +1,5 @@
 import { V } from "./js/view.js";
+import { M } from "./js/model.js";
 
 // Objet qui contient les données du graphique
 let seriesObj1 = [
