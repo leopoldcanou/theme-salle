@@ -4,19 +4,25 @@ V.classcalendar = {
   plot: {
     stacked: true,
     'stack-type': "normal",
-    // styles: [
-    //   "#33a8c7",
-    //   "#52e3e1",
-    //   "#a0e426",
-    //   "#fdf148",
-    //   "#ffab00",
-    //   "#f77976",
-    //   "#f050ae",
-    //   "#d883ff",
-    //   "#9336fd",
-    // ],
-    // "border-radius": "16px",
+    styles: [
+      "#33a8c7",
+      "#52e3e1",
+      "#a0e426",
+      "#fdf148",
+      "#ffab00",
+      "#f77976",
+      "#f050ae",
+      "#d883ff",
+      "#9336fd",
+    ],
+    // "border-radius": "6px",
     // border: "1px solid #dddddd",
+    animation: {
+      "sequence": "ANIMATION_BY_NODE",
+      effect: "ANIMATION_FADE_IN",
+      speed: 500,
+      method: "ANIMATION_FADE_OUT"
+    }
   },
   "scale-x": {
     label: {
@@ -27,7 +33,6 @@ V.classcalendar = {
     ] /* Scale Labels */,
   },
   series: [],
-
 
   plotarea: {
     margin: "dynamic"
