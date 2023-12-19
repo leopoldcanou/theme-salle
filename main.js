@@ -34,21 +34,29 @@ let locationsToFilter = ["R01", "R02", "R03", "R04", "101", "102", "103", "115",
 let filteredDurations = durations.filter((event) => locationsToFilter.includes(event.location) && classTypeFilter.includes(event.title) && yearFilter.includes(event.groups));
 
 let sortedDurations = filteredDurations.reduce((acc, curr) => {
-  if (!acc[curr.title]) {
-    acc[curr.title] = {};
+  if (!acc[curr.groups]) {
+    acc[curr.groups] = {};
   }
-  if (!acc[curr.title][curr.location]) {
-    acc[curr.title][curr.location] = 0;
+  if (!acc[curr.groups][curr.title]) {
+    acc[curr.groups][curr.title] = {};
   }
-  acc[curr.title][curr.location] += curr.duration;
+  if (!acc[curr.groups][curr.title][curr.location]) {
+    acc[curr.groups][curr.title][curr.location] = 0;
+  }
+  acc[curr.groups][curr.title][curr.location] += curr.duration;
   return acc;
 }, {});
 
 console.log(sortedDurations);
 
-let seriesObj1 = classTypeFilter.map((classType) => {
+let seriesObj1 = yearFilter.map((year) => {
+  let classTypeObj = classTypeFilter.map((classType) => {
+    return {
+      values: locationsToFilter.map((location) => sortedDurations[year]?.[classType]?.[location] || 0),
+    };
+  });
   return {
-    values: locationsToFilter.map((location) => sortedDurations[classType]?.[location] || 0),
+    values: classTypeObj,
   };
 });
 
