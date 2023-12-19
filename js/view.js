@@ -28,11 +28,7 @@ V.classcalendar = {
   },
   series: [],
 
-  scaleY: {
-    label: {
-      text: "Commits per Repo"
-    }
-  },
+
   plotarea: {
     margin: "dynamic"
   },

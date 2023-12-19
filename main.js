@@ -22,7 +22,7 @@ let classes = events.map((event) => {
   };
 });
 
-const locations = ["101", "102", "103", "115", "R01", "R02", "R03", "R04"];
+const locations = ["101", "102", "103", "115", "R01", "R02", "R03", "R04", "ADM132"];
 const classTypes = ["TP", "CM", "TD"];
 const groups = ["BUT1", "BUT2", "BUT3"];
 
@@ -66,7 +66,7 @@ classTypes.forEach((classType) => {
   let values = locations.map((location) => totalClassType[location][classType]);
   seriesObj1.push({
     values: values,
-    texte: classType,
+    text: classType,
   });
 });
 
