@@ -25,6 +25,12 @@ zingchart.render({
 
 let events = [...M.getEvents("mmi1"), ...M.getEvents("mmi2"), ...M.getEvents("mmi3")];
 
-let durationHours = events.map((event) => (event.end - event.start) / 3600000);
-console.log(durationHours);
+let durations = events.map((event) => {
+  let durationHours = (event.end - event.start) / 3600000;
+  return {
+    duration: durationHours,
+    location: event.location
+  };
+});
+console.log(durations);
 
