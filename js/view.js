@@ -21,15 +21,7 @@ V.classcalendar = {
       /* Scale Title */ text: "Le nombre d'heure par salle",
     },
     labels: [
-      "R01",
-      "R02",
-      "R03",
-      "R04",
-      "101",
-      "102",
-      "103",
-      "115",
-      "ADM132",
+
     ] /* Scale Labels */,
   },
   series: [],

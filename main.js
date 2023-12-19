@@ -3,24 +3,22 @@ import { M } from "./js/model.js";
 
 await M.init(); // on attend que les données soient chargées
 
-zingchart.render({
-  id: "myChart",
-  data: V.classcalendar, // on appelle V.classcalendar qui est dans view.js
-  height: "100%",
-  width: "100%",
-});
 
 
 // get location of each M.getEvents("mmi1") and get the start and end time of each event
 // get the difference between end and start time
 
-let events = [...M.getEvents("mmi1"), ...M.getEvents("mmi2"), ...M.getEvents("mmi3")];
+let events = [
+  ...M.getEvents("mmi1"),
+  ...M.getEvents("mmi2"),
+  ...M.getEvents("mmi3"),
+];
 
 let durations = events.map((event) => {
   let durationHours = (event.end - event.start) / 3600000;
   return {
     duration: durationHours,
-    location: event.location
+    location: event.location,
   };
 });
 
@@ -51,7 +49,6 @@ durations.forEach((event) => {
 
 console.log(locationHours);
 
-
 // Objet qui contient les données du graphique
 let seriesObj1 = [
   {
@@ -60,3 +57,14 @@ let seriesObj1 = [
 ];
 
 V.classcalendar.series = seriesObj1; // on ajoute les données au graphique
+
+V.classcalendar["scale-x"].labels = Object.keys(locationHours);
+
+
+
+zingchart.render({
+  id: "myChart",
+  data: V.classcalendar, // on appelle V.classcalendar qui est dans view.js
+  height: "100%",
+  width: "100%",
+});
