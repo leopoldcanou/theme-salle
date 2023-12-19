@@ -4,17 +4,17 @@ V.classcalendar = {
   plot: {
     stacked: true,
     'stack-type': "normal",
-    styles: [
-      "#33a8c7",
-      "#52e3e1",
-      "#a0e426",
-      "#fdf148",
-      "#ffab00",
-      "#f77976",
-      "#f050ae",
-      "#d883ff",
-      "#9336fd",
-    ],
+    // styles: [
+    //   "#33a8c7",
+    //   "#52e3e1",
+    //   "#a0e426",
+    //   "#fdf148",
+    //   "#ffab00",
+    //   "#f77976",
+    //   "#f050ae",
+    //   "#d883ff",
+    //   "#9336fd",
+    // ],
     // "border-radius": "6px",
     // border: "1px solid #dddddd",
     animation: {
