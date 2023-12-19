@@ -22,24 +22,29 @@ let classes = events.map((event) => {
   };
 });
 
+const locations = ["101", "102", "103", "115", "R01", "R02", "R03", "R04"];
+const classTypes = ["TP", "CM", "TD"];
+const groups = ["BUT1", "BUT2", "BUT3"];
+
 // get the total duration of each group (BUT1, BUT2, BUT3)
 let totalGroup = {};
-classes
-  .filter((event) => event.group === "BUT1" || event.group === "BUT2" || event.group === "BUT3")
-  .forEach((event) => {
-    if (totalGroup[event.group] === undefined) {
-      totalGroup[event.group] = 0;
-    }
-    totalGroup[event.group] += event.duration;
+locations.forEach((location) => {
+  totalGroup[location] = {};
+  groups.forEach((group) => {
+    totalGroup[location][group] = 0;
   });
+});
+
+classes.forEach((event) => {
+  if (locations.includes(event.location) && groups.includes(event.group)) {
+    totalGroup[event.location][event.group] += event.duration;
+  }
+});
 
 console.log(totalGroup);
 
 //get the total duration of each classType by location
 let totalClassType = {};
-const locations = ["101", "102", "103", "115", "R01", "R02", "R03", "R04"];
-const classTypes = ["TP", "CM", "TD"];
-
 classes.forEach((event) => {
   if (locations.includes(event.location) && classTypes.includes(event.classType)) {
     if (!totalClassType[event.location]) {
@@ -53,6 +58,9 @@ classes.forEach((event) => {
 });
 
 console.log(totalClassType);
+
+// get the total duration of each group (BUT1, BUT2, BUT3) by location
+
 
 V.classcalendar.series = seriesObj1;
 V.classcalendar["scale-x"].labels = Object.keys(sortedclasses);
