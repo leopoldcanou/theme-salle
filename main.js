@@ -14,40 +14,28 @@ let events = [
 ];
 
 let durations = events.map((event) => {
-  let durationHours = (event.end - event.start) / 3600000;
-  let title = event.title.includes("CM") ? "CM" : event.title.includes("TD") ? "TD" : event.title.includes("TP") ? "TP" : event.title;
-  let groups = event.groups.toString().includes("BUT1") ? "BUT1" : event.groups.toString().includes("BUT2") ? "BUT2" : event.groups.toString().includes("BUT3") ? "BUT3" : event.groups;
   return {
-    duration: durationHours,
+    duration: event.duration,
     location: event.location,
-    title: title,
-    groups: groups,
+    classType: event.classType,
+    group: event.group,
   };
 });
 
+// get the total duration of each group
+let totalDuration = {};
+durations.forEach((event) => {
+  if (totalDuration[event.group] === undefined) {
+    totalDuration[event.group] = 0;
+  }
+  totalDuration[event.group] += event.duration;
+});
+
+console.log(totalDuration);
+
+
+
 console.log(durations);
-
-let yearFilter = ["BUT1", "BUT2", "BUT3"];
-let classTypeFilter = ["CM", "TD", "TP"];
-let locationsToFilter = ["R01", "R02", "R03", "R04", "101", "102", "103", "115", "ADM132"];
-
-let filteredDurations = durations.filter((event) => locationsToFilter.includes(event.location) && classTypeFilter.includes(event.title) && yearFilter.includes(event.groups));
-
-let sortedDurations = filteredDurations.reduce((acc, curr) => {
-  if (!acc[curr.groups]) {
-    acc[curr.groups] = {};
-  }
-  if (!acc[curr.groups][curr.title]) {
-    acc[curr.groups][curr.title] = {};
-  }
-  if (!acc[curr.groups][curr.title][curr.location]) {
-    acc[curr.groups][curr.title][curr.location] = 0;
-  }
-  acc[curr.groups][curr.title][curr.location] += curr.duration;
-  return acc;
-}, {});
-
-console.log(sortedDurations);
 
 let seriesObj1 = yearFilter.map((year) => {
   let classTypeObj = classTypeFilter.map((classType) => {
