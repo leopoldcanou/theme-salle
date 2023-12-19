@@ -13,7 +13,7 @@ let events = [
   ...M.getEvents("mmi3"),
 ];
 
-let durations = events.map((event) => {
+let classes = events.map((event) => {
   return {
     duration: event.duration,
     location: event.location,
@@ -22,34 +22,34 @@ let durations = events.map((event) => {
   };
 });
 
-// get the total duration of each group
-let totalDuration = {};
-durations.forEach((event) => {
-  if (totalDuration[event.group] === undefined) {
-    totalDuration[event.group] = 0;
-  }
-  totalDuration[event.group] += event.duration;
-});
-
-console.log(totalDuration);
-
-
-
-console.log(durations);
-
-let seriesObj1 = yearFilter.map((year) => {
-  let classTypeObj = classTypeFilter.map((classType) => {
-    return {
-      values: locationsToFilter.map((location) => sortedDurations[year]?.[classType]?.[location] || 0),
-    };
+// get the total duration of each group (BUT1, BUT2, BUT3)
+let totalGroup = {};
+classes
+  .filter((event) => event.group === "BUT1" || event.group === "BUT2" || event.group === "BUT3")
+  .forEach((event) => {
+    if (totalGroup[event.group] === undefined) {
+      totalGroup[event.group] = 0;
+    }
+    totalGroup[event.group] += event.duration;
   });
-  return {
-    values: classTypeObj,
-  };
-});
+
+console.log(totalGroup);
+
+//get the total duration of each classType
+let totalClassType = {};
+classes
+  .filter((event) => event.classType === "TP" || event.classType === "TD" || event.classType === "CM")
+  .forEach((event) => {
+    if (totalClassType[event.classType] === undefined) {
+      totalClassType[event.classType] = 0;
+    }
+    totalClassType[event.classType] += event.duration;
+  });
+
+console.log(totalClassType);
 
 V.classcalendar.series = seriesObj1;
-V.classcalendar["scale-x"].labels = Object.keys(sortedDurations);
+V.classcalendar["scale-x"].labels = Object.keys(sortedclasses);
 
 zingchart.render({
   id: "myChart",
