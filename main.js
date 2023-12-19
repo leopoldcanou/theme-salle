@@ -23,7 +23,6 @@ let durations = events.map((event) => {
     location: event.location
   };
 });
-console.log(durations);
 
 const locations = [
   "R01",
