@@ -1,5 +1,6 @@
 import { V } from "./js/view.js";
 import { M } from "./js/model.js";
+import zingchart from "zingchart";
 
 
 await M.init(); // on attend que les données soient chargées
@@ -60,6 +61,7 @@ classes.forEach((event) => {
 console.log(totalClassType);
 
 let seriesObj1 = [];
+let seriesObj2 = [];
 
 // Loop through classTypes
 classTypes.forEach((classType) => {
@@ -70,7 +72,24 @@ classTypes.forEach((classType) => {
   });
 });
 
+classTypes.forEach((classType) => {
+  let values = locations.map((location) => {
+    let total = 0;
+    groups.forEach((group) => {
+      total += totalGroup[location][group];
+    });
+    return total;
+  });
+
+  seriesObj2.push({
+    values: values,
+    text: classType,
+  });
+});
+
 V.classcalendar.series = seriesObj1;
+console.log(totalClassType);
+console.log(seriesObj2);
 V.classcalendar["scale-x"].labels = Object.keys(totalClassType);
 
 zingchart.render({
@@ -78,4 +97,24 @@ zingchart.render({
   data: V.classcalendar, // on appelle V.classcalendar qui est dans view.js
   height: "100%",
   width: "100%",
+});
+
+
+// eventlistener on select calendartype
+
+let select = document.querySelector("#calendartype");
+
+select.addEventListener("change", () => {
+  if (select.value == "group") {
+    V.classcalendar.series = seriesObj1;
+  }
+  else if (select.value == "class") {
+    V.classcalendar.series = seriesObj2;
+  }
+  zingchart.render({
+    id: "myChart",
+    data: V.classcalendar, // on appelle V.classcalendar qui est dans view.js
+    height: "100%",
+    width: "100%",
+  });
 });
