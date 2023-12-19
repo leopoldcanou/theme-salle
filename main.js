@@ -22,17 +22,7 @@ let durations = events.map((event) => {
   };
 });
 
-const locations = [
-  "R01",
-  "R02",
-  "R03",
-  "R04",
-  "101",
-  "102",
-  "103",
-  "115",
-  "ADM132",
-];
+const locations = ["R01", "R02", "R03", "R04", "101", "102", "103", "115", "ADM132"];
 
 const locationHours = {};
 
@@ -47,20 +37,24 @@ durations.forEach((event) => {
   }
 });
 
-console.log(locationHours);
+console.log(locations[0]);
+console.log(locationHours[`${locations[0]}`]);
 
-// Objet qui contient les données du graphique
+for (let location of locations) {
+  console.log(location);
+}
+
 let seriesObj1 = [
   {
-    values: [20, 45, 25, 5, 10, 15, 20, 25, 30],
+    values: locations.map(location => locationHours[location])
   },
 ];
+
+// Objet qui contient les données du graphique
 
 V.classcalendar.series = seriesObj1; // on ajoute les données au graphique
 
 V.classcalendar["scale-x"].labels = Object.keys(locationHours);
-
-
 
 zingchart.render({
   id: "myChart",
