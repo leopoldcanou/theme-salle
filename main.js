@@ -31,4 +31,10 @@ let startTimes = events.map((event) => event.start);
 let endTimes = events.map((event) => event.end);
 console.log(startTimes);
 console.log(endTimes);
+// get the difference between end and start time
+let duration = endTimes.map((end, index) => end - startTimes[index]);
+console.log(duration);
+// set the duration to hours
+let durationHours = duration.map((duration) => duration / 3600000);
+console.log(durationHours);
 
