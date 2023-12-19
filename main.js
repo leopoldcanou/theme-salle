@@ -78,22 +78,7 @@ groups.forEach((group) => {
     values: values,
     text: group,
   });
-})
-
-// classTypes.forEach((classType) => {
-//   let values = locations.map((location) => {
-//     let total = 0;
-//     groups.forEach((group) => {
-//       total += totalGroup[location][group];
-//     });
-//     return total;
-//   });
-
-//   seriesObj2.push({
-//     values: values,
-//     text: classType,
-//   });
-// });
+});
 
 V.classcalendar.series = seriesObj1;
 console.log(totalClassType);
