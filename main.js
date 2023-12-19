@@ -3,8 +3,6 @@ import { M } from "./js/model.js";
 
 await M.init(); // on attend que les données soient chargées
 
-
-
 // get location of each M.getEvents("mmi1") and get the start and end time of each event
 // get the difference between end and start time
 
@@ -22,39 +20,25 @@ let durations = events.map((event) => {
   };
 });
 
-const locations = ["R01", "R02", "R03", "R04", "101", "102", "103", "115", "ADM132"];
+let locationsToFilter = ["R01", "R02", "R03", "R04", "101", "102", "103", "115", "ADM132"];
 
-const locationHours = {};
-
-durations.forEach((event) => {
-  const { duration, location } = event;
-  if (locations.includes(location)) {
-    if (locationHours[location]) {
-      locationHours[location] += duration;
+let sortedDurations = durations.reduce((acc, curr) => {
+  if (locationsToFilter.includes(curr.location)) {
+    if (acc[curr.location]) {
+      acc[curr.location] += curr.duration;
     } else {
-      locationHours[location] = duration;
+      acc[curr.location] = curr.duration;
     }
   }
-});
+  return acc;
+}, {});
 
-console.log(locations[0]);
-console.log(locationHours[`${locations[0]}`]);
+let seriesObj1 = [{
+  values: Object.keys(sortedDurations).map(key => sortedDurations[key]),
+}];
 
-for (let location of locations) {
-  console.log(location);
-}
-
-let seriesObj1 = [
-  {
-    values: locations.map(location => locationHours[location])
-  },
-];
-
-// Objet qui contient les données du graphique
-
-V.classcalendar.series = seriesObj1; // on ajoute les données au graphique
-
-V.classcalendar["scale-x"].labels = Object.keys(locationHours);
+V.classcalendar.series = seriesObj1;
+V.classcalendar["scale-x"].labels = Object.keys(sortedDurations);
 
 zingchart.render({
   id: "myChart",
