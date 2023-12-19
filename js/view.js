@@ -15,8 +15,8 @@ V.classcalendar = {
     //   "#d883ff",
     //   "#9336fd",
     // ],
-    "border-radius": "16px",
-    border: "1px solid #dddddd",
+    // "border-radius": "16px",
+    // border: "1px solid #dddddd",
   },
   "scale-x": {
     label: {
