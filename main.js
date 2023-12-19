@@ -13,43 +13,77 @@ let events = [
   ...M.getEvents("mmi3"),
 ];
 
-let classes = events.map((event) => {
+let durations = events.map((event) => {
+  let durationHours = (event.end - event.start) / 3600000;
+  let title = event.title.includes("CM") ? "CM" : event.title.includes("TD") ? "TD" : event.title.includes("TP") ? "TP" : event.title;
+  let groups = event.groups.toString().includes("BUT1") ? "BUT1" : event.groups.toString().includes("BUT2") ? "BUT2" : event.groups.toString().includes("BUT3") ? "BUT3" : event.groups;
   return {
-    duration: event.duration,
+    duration: durationHours,
     location: event.location,
-    classType: event.classType,
-    group: event.group,
+    title: title,
+    groups: groups,
   };
 });
 
-// get the total duration of each group (BUT1, BUT2, BUT3)
-let totalGroup = {};
-classes
-  .filter((event) => event.group === "BUT1" || event.group === "BUT2" || event.group === "BUT3")
-  .forEach((event) => {
-    if (totalGroup[event.group] === undefined) {
-      totalGroup[event.group] = 0;
+console.log(durations);
+
+let yearFilter = ["BUT1", "BUT2", "BUT3"];
+let classTypeFilter = ["CM", "TD", "TP"];
+let locationsToFilter = ["R01", "R02", "R03", "R04", "101", "102", "103", "115", "ADM132"];
+
+
+let filteredDurations = durations.filter((event) => {
+  let groups = yearFilter.find((year) => event.groups.includes(year)) || event.groups;
+  return locationsToFilter.includes(event.location) && classTypeFilter.includes(event.title) && yearFilter.includes(groups);
+});
+
+let sortedDurations = filteredDurations.reduce((acc, curr) => {
+  let groups = yearFilter.find((year) => curr.groups.includes(year)) || curr.groups;
+
+  if (!acc[curr.location]) {
+    acc[curr.location] = {};
+  }
+
+  if (yearFilter.includes(groups)) {
+    if (!acc[curr.location][groups]) {
+      acc[curr.location][groups] = 0;
     }
-    totalGroup[event.group] += event.duration;
-  });
+    acc[curr.location][groups] += curr.duration;
+  }
 
-console.log(totalGroup);
+  return acc;
+}, {});
 
-//get the total duration of each classType
-let totalClassType = {};
-classes
-  .filter((event) => event.classType === "TP" || event.classType === "TD" || event.classType === "CM")
-  .forEach((event) => {
-    if (totalClassType[event.classType] === undefined) {
-      totalClassType[event.classType] = 0;
+for (const location in sortedDurations) {
+  sortedDurations[location].getTotal = function () {
+    let total = 0;
+    for (const group in this) {
+      if (group !== 'getTotal') {
+        total += this[group];
+      }
     }
-    totalClassType[event.classType] += event.duration;
-  });
+    return total;
+  };
+}
 
-console.log(totalClassType);
+console.log(sortedDurations);
+console.log(sortedDurations["R01"].getTotal());
+
+
+
+let seriesObj1 = yearFilter.map((year) => {
+  let classTypeObj = classTypeFilter.map((classType) => {
+    return {
+      values: locationsToFilter.map((location) => sortedDurations[year]?.[classType]?.[location] || 0),
+    };
+  });
+  return {
+    values: classTypeObj,
+  };
+});
 
 V.classcalendar.series = seriesObj1;
-V.classcalendar["scale-x"].labels = Object.keys(sortedclasses);
+V.classcalendar["scale-x"].labels = Object.keys(sortedDurations);
 
 zingchart.render({
   id: "myChart",
