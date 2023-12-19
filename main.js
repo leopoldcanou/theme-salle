@@ -1,6 +1,8 @@
 import { V } from "./js/view.js";
 import { M } from "./js/model.js";
 
+await M.init(); // on attend que les données soient chargées
+
 // Objet qui contient les données du graphique
 let seriesObj1 = [
   {
@@ -16,3 +18,17 @@ zingchart.render({
   height: "100%",
   width: "100%",
 });
+
+// get location of each M.getEvents("mmi1") and get the start and end time of each event
+// get the difference between end and start time
+
+let events = [...M.getEvents("mmi1"), ...M.getEvents("mmi2"), ...M.getEvents("mmi3")];
+
+console.log(events);
+
+// get the start and end time of each event
+let startTimes = events.map((event) => event.start);
+let endTimes = events.map((event) => event.end);
+console.log(startTimes);
+console.log(endTimes);
+
