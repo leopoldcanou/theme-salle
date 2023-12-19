@@ -37,15 +37,25 @@ console.log(totalGroup);
 
 //get the total duration of each classType by location
 let totalClassType = {};
-classes.filter((event) => event.location === "101" || event.location === "102" || event.location === "103" || event.location === "115" || event.location === "R01" || event.location === "R02" || event.location === "R03" || event.location === "R04").forEach((event) => {
-  if (totalClassType[event.location] === undefined) {
-    totalClassType[event.location] = {};
-  }
-  if (totalClassType[event.location][event.classType] === undefined) {
-    totalClassType[event.location][event.classType] = 0;
-  }
-  totalClassType[event.location][event.classType] += event.duration;
-});
+classes
+  .filter((event) =>
+    event.location === "101" ||
+    event.location === "102" ||
+    event.location === "103" ||
+    event.location === "115" ||
+    event.location === "R01" ||
+    event.location === "R02" ||
+    event.location === "R03" ||
+    event.location === "R04")
+  .forEach((event) => {
+    if (totalClassType[event.location] === undefined) {
+      totalClassType[event.location] = {};
+    }
+    if (totalClassType[event.location][event.classType] === undefined) {
+      totalClassType[event.location][event.classType] = 0;
+    }
+    totalClassType[event.location][event.classType] += event.duration;
+  });
 
 console.log(totalClassType);
 
