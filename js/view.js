@@ -34,49 +34,10 @@ V.classcalendar = {
   },
 
   legend: {
+    "toggle-action": "remove",
     adjustLayout: true,
     verticalAlign: "middle"
   },
 };
 
 export { V };
-
-
-graphset: [{
-  type: 'bar',
-  palette: ["#f44336", "#8bc34a", "#03a9f4"],
-  title: {
-    text: "Gitlab Commits",
-    adjustLayout: true
-  },
-  scaleX: {
-    labels: [2013, 2014, 2015, 2016],
-    label: {
-      text: "All-time"
-    }
-  },
-  crosshairX: {
-    lineWidth: "100%",
-    lineColor: '#ccc',
-    alpha: 0.5,
-    plotLabel: {
-      visible: false
-    }
-  },
-  scaleY: {
-    label: {
-      text: "Commits per Repo"
-    }
-  },
-  plotarea: {
-    margin: "dynamic"
-  },
-  plot: {
-    lineWidth: 1
-  },
-  legend: {
-    adjustLayout: true,
-    verticalAlign: "middle"
-  },
-
-}]
