@@ -72,20 +72,28 @@ classTypes.forEach((classType) => {
   });
 });
 
-classTypes.forEach((classType) => {
-  let values = locations.map((location) => {
-    let total = 0;
-    groups.forEach((group) => {
-      total += totalGroup[location][group];
-    });
-    return total;
-  });
-
+groups.forEach((group) => {
+  let values = locations.map((location) => totalGroup[location][group]);
   seriesObj2.push({
     values: values,
-    text: classType,
+    text: group,
   });
-});
+})
+
+// classTypes.forEach((classType) => {
+//   let values = locations.map((location) => {
+//     let total = 0;
+//     groups.forEach((group) => {
+//       total += totalGroup[location][group];
+//     });
+//     return total;
+//   });
+
+//   seriesObj2.push({
+//     values: values,
+//     text: classType,
+//   });
+// });
 
 V.classcalendar.series = seriesObj1;
 console.log(totalClassType);
