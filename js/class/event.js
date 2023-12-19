@@ -58,6 +58,7 @@ class Event {
       start: this.#start,
       end: this.#end,
       location: this.#location,
+      groups: this.#groups,
     };
   }
 }

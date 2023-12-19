@@ -17,10 +17,15 @@ let durations = events.map((event) => {
   return {
     duration: durationHours,
     location: event.location,
+    title: event.title,
+    groups: event.groups,
   };
 });
 
+console.log(durations);
+
 let locationsToFilter = ["R01", "R02", "R03", "R04", "101", "102", "103", "115", "ADM132"];
+let classTypeFilter = ["CM", "TD", "TP"];
 
 let sortedDurations = durations.reduce((acc, curr) => {
   if (locationsToFilter.includes(curr.location)) {
