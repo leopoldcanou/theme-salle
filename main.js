@@ -59,23 +59,16 @@ classes.forEach((event) => {
 
 console.log(totalClassType);
 
-// get the array of values for classType
-let seriesObj1 = [
-  {
-    values: [totalClassType["101"]["CM"], totalClassType["102"]["CM"], totalClassType["103"]["CM"], totalClassType["115"]["CM"], totalClassType["R01"]["CM"], totalClassType["R02"]["CM"], totalClassType["R03"]["CM"], totalClassType["R04"]["CM"]],
-    texte: "CM",
-  },
-  {
-    values: [totalClassType["101"]["TD"], totalClassType["102"]["TD"], totalClassType["103"]["TD"], totalClassType["115"]["TD"], totalClassType["R01"]["TD"], totalClassType["R02"]["TD"], totalClassType["R03"]["TD"], totalClassType["R04"]["TD"]],
-    texte: "TD",
-  },
-  {
-    values: [totalClassType["101"]["TP"], totalClassType["102"]["TP"], totalClassType["103"]["TP"], totalClassType["115"]["TP"], totalClassType["R01"]["TP"], totalClassType["R02"]["TP"], totalClassType["R03"]["TP"], totalClassType["R04"]["TP"]],
-    texte: "TP",
-  },
+let seriesObj1 = [];
 
-];
-console.log(totalClassType["101"]);
+// Loop through classTypes
+classTypes.forEach((classType) => {
+  let values = locations.map((location) => totalClassType[location][classType]);
+  seriesObj1.push({
+    values: values,
+    texte: classType,
+  });
+});
 
 V.classcalendar.series = seriesObj1;
 V.classcalendar["scale-x"].labels = Object.keys(totalClassType);
