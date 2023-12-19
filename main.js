@@ -1,6 +1,7 @@
 import { V } from "./js/view.js";
 import { M } from "./js/model.js";
 
+
 await M.init(); // on attend que les données soient chargées
 
 // get location of each M.getEvents("mmi1") and get the start and end time of each event
@@ -14,33 +15,42 @@ let events = [
 
 let durations = events.map((event) => {
   let durationHours = (event.end - event.start) / 3600000;
+  let title = event.title.includes("CM") ? "CM" : event.title.includes("TD") ? "TD" : event.title.includes("TP") ? "TP" : event.title;
+  let groups = event.groups.toString().includes("BUT1") ? "BUT1" : event.groups.toString().includes("BUT2") ? "BUT2" : event.groups.toString().includes("BUT3") ? "BUT3" : event.groups;
   return {
     duration: durationHours,
     location: event.location,
-    title: event.title,
-    groups: event.groups,
+    title: title,
+    groups: groups,
   };
 });
 
 console.log(durations);
 
-let locationsToFilter = ["R01", "R02", "R03", "R04", "101", "102", "103", "115", "ADM132"];
+let yearFilter = ["BUT1", "BUT2", "BUT3"];
 let classTypeFilter = ["CM", "TD", "TP"];
+let locationsToFilter = ["R01", "R02", "R03", "R04", "101", "102", "103", "115", "ADM132"];
 
-let sortedDurations = durations.reduce((acc, curr) => {
-  if (locationsToFilter.includes(curr.location)) {
-    if (acc[curr.location]) {
-      acc[curr.location] += curr.duration;
-    } else {
-      acc[curr.location] = curr.duration;
-    }
+let filteredDurations = durations.filter((event) => locationsToFilter.includes(event.location) && classTypeFilter.includes(event.title) && yearFilter.includes(event.groups));
+
+let sortedDurations = filteredDurations.reduce((acc, curr) => {
+  if (!acc[curr.title]) {
+    acc[curr.title] = {};
   }
+  if (!acc[curr.title][curr.location]) {
+    acc[curr.title][curr.location] = 0;
+  }
+  acc[curr.title][curr.location] += curr.duration;
   return acc;
 }, {});
 
-let seriesObj1 = [{
-  values: Object.keys(sortedDurations).map(key => sortedDurations[key]),
-}];
+console.log(sortedDurations);
+
+let seriesObj1 = classTypeFilter.map((classType) => {
+  return {
+    values: locationsToFilter.map((location) => sortedDurations[classType]?.[location] || 0),
+  };
+});
 
 V.classcalendar.series = seriesObj1;
 V.classcalendar["scale-x"].labels = Object.keys(sortedDurations);
