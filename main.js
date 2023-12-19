@@ -39,14 +39,17 @@ console.log(totalGroup);
 let totalClassType = {};
 classes
   .filter((event) =>
-    event.location === "101" ||
-    event.location === "102" ||
-    event.location === "103" ||
-    event.location === "115" ||
-    event.location === "R01" ||
-    event.location === "R02" ||
-    event.location === "R03" ||
-    event.location === "R04")
+    (event.location === "101" ||
+      event.location === "102" ||
+      event.location === "103" ||
+      event.location === "115" ||
+      event.location === "R01" ||
+      event.location === "R02" ||
+      event.location === "R03" ||
+      event.location === "R04") &&
+    (event.classType === "TP" ||
+      event.classType === "CM" ||
+      event.classType === "TD"))
   .forEach((event) => {
     if (totalClassType[event.location] === undefined) {
       totalClassType[event.location] = {};
