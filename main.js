@@ -19,22 +19,12 @@ zingchart.render({
   width: "100%",
 });
 
+
 // get location of each M.getEvents("mmi1") and get the start and end time of each event
 // get the difference between end and start time
 
 let events = [...M.getEvents("mmi1"), ...M.getEvents("mmi2"), ...M.getEvents("mmi3")];
 
-console.log(events);
-
-// get the start and end time of each event
-let startTimes = events.map((event) => event.start);
-let endTimes = events.map((event) => event.end);
-console.log(startTimes);
-console.log(endTimes);
-// get the difference between end and start time
-let duration = endTimes.map((end, index) => end - startTimes[index]);
-console.log(duration);
-// set the duration to hours
-let durationHours = duration.map((duration) => duration / 3600000);
+let durationHours = events.map((event) => (event.end - event.start) / 3600000);
 console.log(durationHours);
 
