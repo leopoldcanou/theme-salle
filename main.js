@@ -190,27 +190,27 @@ classes.forEach((event) => {
   //   }
   // }
 
-  if (event.location && locations.includes(event.location) && event.semestre && semestre.includes(event.semestre)) {
-    if (!chartData.find((data) => data.name === event.semestre && data.parent === event.location)) {
-      chartData.push({
-        id: `${event.location}-${event.semestre}`,
-        parent: event.location,
-        name: event.semestre,
-        value: totalSemestre[event.location][event.semestre],
-      });
-    }
-  }
-
-  // if (event.location && locations.includes(event.location) && event.ressources) {
-  //   if (!chartData.find((data) => data.name === event.ressources && data.parent === event.location)) {
+  // if (event.location && locations.includes(event.location) && event.semestre && semestre.includes(event.semestre)) {
+  //   if (!chartData.find((data) => data.name === event.semestre && data.parent === event.location)) {
   //     chartData.push({
-  //       id: `${event.location}-${event.ressources}`,
+  //       id: `${event.location}-${event.semestre}`,
   //       parent: event.location,
-  //       name: event.ressources,
-  //       value: totalRessource[event.location][event.ressources],
+  //       name: event.semestre,
+  //       value: totalSemestre[event.location][event.semestre],
   //     });
   //   }
   // }
+
+  if (event.location && locations.includes(event.location) && event.ressources) {
+    if (!chartData.find((data) => data.name === event.ressources && data.parent === event.location)) {
+      chartData.push({
+        id: `${event.location}-${event.ressources}`,
+        parent: event.location,
+        name: event.ressources,
+        value: totalRessource[event.location][event.ressources],
+      });
+    }
+  }
 });
 
 console.log(chartData);
