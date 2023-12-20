@@ -72,7 +72,11 @@ let seriesObj2 = [];
 classTypes.forEach((classType) => {
   let values = locations.map((location) => totalClassType[location][classType]);
   seriesObj1.push({
-    values: values,
+    id: 'TD',
+    parent: 'R01',
+    name: 'TD',
+    value: values,
+
     text: classType,
   });
 });
@@ -85,16 +89,20 @@ groups.forEach((group) => {
   });
 });
 
-V.classcalendar.series = seriesObj1;
-V.classcalendar["scale-x"].labels = Object.keys(totalClassType);
+//V.chart.series = seriesObj1;
+//V.classcalendar["scale-x"].labels = Object.keys(totalClassType);
 
-zingchart.render({
-  id: "myChart",
-  data: V.classcalendar, // on appelle V.classcalendar qui est dans view.js
-  height: "100%",
-  width: "100%",
+
+
+
+zingchart.loadModules('bubble-pack', function () {
+  zingchart.render({
+    id: 'myChart',
+    data: V.chartConfig,
+    height: '100%',
+    width: '100%',
+  });
 });
-
 
 // eventlistener on select calendartype
 
