@@ -82,7 +82,6 @@ class Event {
     return this.#semestre;
   }
   // retourne un objet contenant les informations de l'événement
-  // dans un format compatible avec Toast UI Calendar (voir https://nhn.github.io/tui.calendar/latest/EventObject)
   toObject() {
     return {
       id: this.#id,

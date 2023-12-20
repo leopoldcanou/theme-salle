@@ -118,6 +118,8 @@ select.addEventListener("change", () => {
 // Itération 3
 // Pour une salle (sélectionnable), visualiser son utilisation par semestre, par quelles ressources ou SAÉ, et pour quels usages (CM, TD, TP)
 
+// recuperer la duration  ressources et le semestre,
+
 // les donnes doivent etre sous la forme suivante
 let salle = [
   {
