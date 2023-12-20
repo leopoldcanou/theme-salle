@@ -172,30 +172,33 @@ console.log(aggregatedData); // Assurez-vous que les données sont agrégées co
 // Supposons que vous avez des données retournées par votre fonction updateHeatmapData
 const heatmapData = aggregatedData;
 
+// Salles spécifiques que vous voulez inclure dans la heatmap
+const specificLocations = ['101', '102', '103', '115', 'R03', 'R04', 'R01', 'ADM132', 'R02'];
+
+// Filtrer les données pour inclure uniquement les salles spécifiques
+const filteredData = heatmapData.filter(item => specificLocations.includes(item.location));
+
 // Conversion des données pour la heatmap ZingChart
 const zingchartData = [];
-const classLocations = new Set(); // Renommé en classLocations
 const weeks = new Set();
 
-// Obtenez la liste unique des emplacements et des semaines
-heatmapData.forEach(item => {
-  classLocations.add(item.location);
+// Obtenez la liste unique des semaines
+filteredData.forEach(item => {
   weeks.add(item.semaine);
 });
 
-// Triez les semaines et les emplacements
-const sortedLocations = Array.from(classLocations).sort();
+// Triez les semaines
 const sortedWeeks = Array.from(weeks).sort((a, b) => a - b);
 
 // Créez la structure de données nécessaire pour ZingChart
-sortedLocations.forEach(location => {
+specificLocations.forEach(location => {
   const locationData = {
     text: location,
     values: []
   };
 
   sortedWeeks.forEach(week => {
-    const dataForWeek = heatmapData.find(item => item.semaine === week && item.location === location);
+    const dataForWeek = filteredData.find(item => item.semaine === week && item.location === location);
     if (dataForWeek) {
       locationData.values.push(dataForWeek.totalDuration);
     } else {
@@ -213,7 +216,7 @@ zingchart.render({
     type: 'heatmap',
     series: zingchartData,
     scaleY: {
-      values: sortedLocations
+      values: specificLocations
     },
     scaleX: {
       values: sortedWeeks
