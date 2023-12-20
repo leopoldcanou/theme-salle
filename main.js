@@ -35,6 +35,7 @@ console.log(classes);
 const locations = ["101", "102", "103", "115", "R01", "R02", "R03", "R04", "ADM132"];
 const classTypes = ["TP", "CM", "TD"];
 const groups = ["BUT1", "BUT2", "BUT3"];
+const semestre = ["S1", "S2", "S3", "S4", "S5", "S6"];
 
 // get the total duration of each group (BUT1, BUT2, BUT3)
 let totalGroup = {};
@@ -87,11 +88,6 @@ groups.forEach((group) => {
 
 //V.chart.series = seriesObj1;
 //V.classcalendar["scale-x"].labels = Object.keys(totalClassType);
-
-
-
-
-
 
 // eventlistener on select calendartype
 
@@ -183,27 +179,27 @@ classes.forEach((event) => {
     });
   }
 
-  if (event.location && locations.includes(event.location) && event.classType && ["TP", "TD", "CM"].includes(event.classType)) {
-    if (!chartData.find((data) => data.name === event.classType && data.parent === event.location)) {
-      chartData.push({
-        id: `${event.location}-${event.classType}`,
-        parent: event.location,
-        name: event.classType,
-        value: totalUsage[event.location][event.classType],
-      });
-    }
-  }
-
-  // if (event.location && locations.includes(event.location) && event.semestre) {
-  //   if (!chartData.find((data) => data.name === event.semestre && data.parent === event.location)) {
+  // if (event.location && locations.includes(event.location) && event.classType && ["TP", "TD", "CM"].includes(event.classType)) {
+  //   if (!chartData.find((data) => data.name === event.classType && data.parent === event.location)) {
   //     chartData.push({
-  //       id: `${event.location}-${event.semestre}`,
+  //       id: `${event.location}-${event.classType}`,
   //       parent: event.location,
-  //       name: event.semestre,
-  //       value: totalSemestre[event.location][event.semestre],
+  //       name: event.classType,
+  //       value: totalUsage[event.location][event.classType],
   //     });
   //   }
   // }
+
+  if (event.location && locations.includes(event.location) && event.semestre && semestre.includes(event.semestre)) {
+    if (!chartData.find((data) => data.name === event.semestre && data.parent === event.location)) {
+      chartData.push({
+        id: `${event.location}-${event.semestre}`,
+        parent: event.location,
+        name: event.semestre,
+        value: totalSemestre[event.location][event.semestre],
+      });
+    }
+  }
 
   // if (event.location && locations.includes(event.location) && event.ressources) {
   //   if (!chartData.find((data) => data.name === event.ressources && data.parent === event.location)) {
