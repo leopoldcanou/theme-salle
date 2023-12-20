@@ -209,18 +209,16 @@ specificLocations.forEach(location => {
   zingchartData.push(locationData);
 });
 
-// Créez le graphique ZingChart
+
+
+V.HeatMap.scaleY.values = specificLocations;
+V.HeatMap.scaleX.values = sortedWeeks;
+V.HeatMap.series = zingchartData;
+
+
 zingchart.render({
   id: 'myChart',
-  data: {
-    type: 'heatmap',
-    series: zingchartData,
-    scaleY: {
-      values: specificLocations
-    },
-    scaleX: {
-      values: sortedWeeks
-    }
-  }
+  data: V.HeatMap
 });
+
 

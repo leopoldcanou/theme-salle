@@ -2,20 +2,14 @@ let V = {};
 
 V.HeatMap = {
   "type": "heatmap",
+  scaleY: { values: "" },
+  scaleX: {},
 
-  "series": [{
-    "values": [59, 15, 5, 30, 60, 99, 28]
-  },
-  {
-    "values": [34, 32, 87, 65, 9, 17, 40]
-  },
-  {
-    "values": [90, 19, 50, 39, 12, 49, 14]
-  }
+  "series": [
   ],
   plot: {
     tooltip: {
-      text: 'Il y %v heures de cours',
+      text: 'Il y a %v heures de cours',
       fontColor: 'white',
       fontSize: '14px',
       textAlign: 'left',
