@@ -178,6 +178,7 @@ classes.forEach((event) => {
       id: event.location,
       parent: 'all',
       name: event.location,
+      value: 10,
     });
   }
 });
@@ -185,6 +186,8 @@ classes.forEach((event) => {
 console.log(chartData);
 
 V.chartConfig.series = chartData;
+
+console.log(V.chartConfig);
 
 zingchart.loadModules('bubble-pack', function () {
   zingchart.render({
