@@ -178,20 +178,6 @@ classes.forEach((event) => {
       id: event.location,
       parent: 'all',
       name: event.location,
-      // value: 10,
-    });
-  }
-});
-
-console.log(chartData);
-
-classes.forEach((event) => {
-  if (event.location && locations.includes(event.location) && !chartLocations.includes(event.location)) {
-    chartLocations.push(event.location);
-    chartData.push({
-      id: event.location,
-      parent: 'all',
-      name: event.location,
     });
   }
 
@@ -209,10 +195,7 @@ classes.forEach((event) => {
 
 console.log(chartData);
 
-
 V.chartConfig.series = chartData;
-
-console.log(V.chartConfig);
 
 zingchart.loadModules('bubble-pack', function () {
   zingchart.render({
