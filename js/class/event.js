@@ -11,8 +11,9 @@ class Event {
   #classType;
   #ressource; // fait
   #semestre; // fait
+  #semaine;
 
-  constructor(id, summary, description, start, end, location, duration, group, classType, ressource) {
+  constructor(id, summary, description, start, end, location, duration, group, classType, ressource, semaine) {
     this.#id = id;
     this.#summary = summary.slice(0, summary.lastIndexOf(","));
     this.#description = description;
@@ -32,6 +33,8 @@ class Event {
 
     this.#ressource = summary.match(/^(R|(SA))[EÉ ]{0,2}[1-6](\.Crea)?(\.DWeb-DI)?\.[0-9]{2}/)?.[0]; // a faire
     this.#semestre = "S" + summary.match(/^(R|(SA))[EÉ ]{0,2}([1-6])/)?.[3]; // fait
+    this.#semaine = Math.ceil(((this.#start - new Date(this.#start.getFullYear(), 0, 1)) + 1) / (24 * 60 * 60 * 1000 * 7));
+
   }
 
   get id() {
@@ -96,6 +99,7 @@ class Event {
       classType: this.#classType,
       ressource: this.#ressource, //fait
       semestre: this.#semestre, // fait
+      semaine: this.#semaine,
     };
   }
 }

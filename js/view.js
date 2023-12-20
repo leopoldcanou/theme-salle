@@ -1,30 +1,26 @@
 let V = {};
 
-V.chartConfig = {
-  type: 'sunburst',
-  plotarea: {
-    margin: 10
+V.HeatMap = {
+  "type": "heatmap",
+
+  "series": [{
+    "values": [59, 15, 5, 30, 60, 99, 28]
   },
+  {
+    "values": [34, 32, 87, 65, 9, 17, 40]
+  },
+  {
+    "values": [90, 19, 50, 39, 12, 49, 14]
+  }
+  ],
   plot: {
     tooltip: {
-      align: 'left',
-      padding: '10px 15px',
-      borderRadius: '3px',
-      thousandsSeparator: ',',
-      text: "%t a %v heures",
-
-    },
-    valueBox: {
-      text: '%data-vbtext',
-      color: '#424242',
-      fontSize: '10px',
-      visible: null
-    },
+      text: 'Il y %v heures de cours',
+      fontColor: 'white',
+      fontSize: '14px',
+      textAlign: 'left',
+    }
   },
-  options: {
-    palette: ['#33a8c7', '#52e3e1', '#a0e426', '#fdf148', '#ffab00', '#f77976', '#f050ae', '#d883ff', '#9336fd'],
-  },
-  series: [],
 };
 
 export { V };

@@ -124,123 +124,97 @@ classes.forEach((event) => {
 
 console.log(totalUsage);
 
-// render data
-
-let chartLocations = [];
 
 
-let chartData = [{
-  id: 'all',
-  parent: '',
-  name: 'All',
-}];
 
-let chartDataRessource = [{
-  id: 'all',
-  parent: '',
-  name: 'All',
-}];
+console.log(events);
 
-let chartDataSemestre = [{
-  id: 'all',
-  parent: '',
-  name: 'All',
-}];
 
-let chartDataCours = [{
-  id: 'all',
-  parent: '',
-  name: 'All',
-}];
 
-classes.forEach((event) => {
-  if (event.location && locations.includes(event.location) && !chartLocations.includes(event.location)) {
-    chartLocations.push(event.location);
-    chartDataRessource.push({
-      id: event.location,
-      parent: 'all',
-      name: event.location,
-    });
-    chartDataSemestre.push({
-      id: event.location,
-      parent: 'all',
-      name: event.location,
-    });
-    chartDataCours.push({
-      id: event.location,
-      parent: 'all',
-      name: event.location,
-    });
-  }
-
-  if (event.location && locations.includes(event.location) && event.classType && ["TP", "TD", "CM"].includes(event.classType)) {
-    if (!chartDataCours.find((data) => data.name === event.classType && data.parent === event.location)) {
-      chartDataCours.push({
-        id: `${event.location}-${event.classType}`,
-        parent: event.location,
-        name: event.classType,
-        value: totalUsage[event.location][event.classType],
-      });
-    }
-  }
-
-  if (event.location && locations.includes(event.location) && event.semestre && semestre.includes(event.semestre)) {
-    if (!chartDataSemestre.find((data) => data.name === event.semestre && data.parent === event.location)) {
-      chartDataSemestre.push({
-        id: `${event.location}-${event.semestre}`,
-        parent: event.location,
-        name: event.semestre,
-        value: totalSemestre[event.location][event.semestre],
-      });
-    }
-  }
-
-  if (event.location && locations.includes(event.location) && event.ressources) {
-    if (!chartDataRessource.find((data) => data.name === event.ressources && data.parent === event.location)) {
-      chartDataRessource.push({
-        id: `${event.location}-${event.ressources}`,
-        parent: event.location,
-        name: event.ressources,
-        value: totalRessource[event.location][event.ressources],
-      });
-    }
-  }
+zingchart.render({
+  id: 'myChart',
+  data: V.HeatMap,
+  height: "100%",
+  width: "100%"
 });
 
-console.log(chartData);
 
-V.chartConfig.series = chartDataRessource;
 
-zingchart.loadModules('bubble-pack', function () {
+
+function aggregateValues(data) {
+  const aggregatedData = {};
+
+  data.forEach((event) => {
+    const key = `${event.location}-${event.semaine}`; // Clé basée sur la combinaison de la semaine et de la location
+
+    if (!aggregatedData[key]) {
+      aggregatedData[key] = {
+        semaine: event.semaine,
+        location: event.location,
+        totalDuration: 0
+      };
+    }
+
+    aggregatedData[key].totalDuration += event.duration; // Additionner les durées pour les mêmes semaines et emplacements
+  });
+
+  return Object.values(aggregatedData); // Retourne un tableau avec les valeurs agrégées par semaine et emplacement
+}
+
+// Utilisez cette fonction pour agréger vos données
+const aggregatedData = aggregateValues(events);
+console.log(aggregatedData); // Assurez-vous que les données sont agrégées correctement
+
+
+
+
+
+function updateHeatmapData(data) {
+  // Aggregate the values
+  const aggregatedData = data.reduce((result, event) => {
+    const key = `${event.location}-${event.semaine}`;
+
+    if (!result[key]) {
+      result[key] = {
+        semaine: event.semaine,
+        location: event.location,
+        totalDuration: 0
+      };
+    }
+
+    result[key].totalDuration += event.duration;
+
+    return result;
+  }, {});
+
+  const aggregatedValues = Object.values(aggregatedData);
+
+  const seriesData = aggregatedValues.reduce((result, item) => {
+    const locationIndex = locations.indexOf(item.location);
+    if (locationIndex !== -1) {
+      if (!result[locationIndex]) {
+        result[locationIndex] = [];
+      }
+      result[locationIndex].push(item.totalDuration);
+    }
+    return result;
+  }, []);
+
+  const heatmapSeries = locations.map((location, index) => ({
+    values: seriesData[index] || Array(aggregatedValues.length).fill(0),
+    text: location
+  }));
+
+  V.HeatMap.series = heatmapSeries;
+
   zingchart.render({
     id: 'myChart',
-    data: V.chartConfig,
-    height: '100%',
-    width: '100%',
-  });
-});
-
-// eventlistener on select calendartype
-
-let select = document.querySelector("#calendartype");
-
-select.addEventListener("change", () => {
-  if (select.value == "cours") {
-    V.chartConfig.series = chartDataCours;
-  }
-  else if (select.value == "semestre") {
-    V.chartConfig.series = chartDataSemestre;
-  }
-  else if (select.value == "ressource") {
-    V.chartConfig.series = chartDataRessource;
-    console.log(chartDataRessource);
-  }
-
-  zingchart.render({
-    id: "myChart",
-    data: V.chartConfig, // on appelle V.classcalendar qui est dans view.js
+    data: V.HeatMap,
     height: "100%",
-    width: "100%",
-    defaults: myTheme,
+    width: "100%"
   });
-});
+}
+
+// Utilisation de la fonction avec vos données agrégées
+updateHeatmapData(aggregatedData);
+
