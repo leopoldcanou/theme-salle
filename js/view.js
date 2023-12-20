@@ -47,9 +47,23 @@ let V = {};
 
 
 V.chartConfig = {
-  type: 'bubble-pack',
+  type: 'sunburst',
   plotarea: {
     margin: 10
+  },
+  plot: {
+    tooltip: {
+      align: 'left',
+      padding: '10px 15px',
+      borderRadius: '3px',
+      thousandsSeparator: ','
+    },
+    valueBox: {
+      text: '%data-vbtext',
+      color: '#424242',
+      fontSize: '10px',
+      visible: null
+    }
   },
   _options: {
     padding: 0,

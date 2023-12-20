@@ -163,6 +163,8 @@ classes.forEach((event) => {
 
 console.log(totalUsage);
 
+// render data
+
 let chartLocations = [];
 
 let chartData = [{
@@ -181,16 +183,38 @@ classes.forEach((event) => {
     });
   }
 
-  if (event.location && locations.includes(event.location) && event.classType && ["TP", "TD", "CM"].includes(event.classType)) {
-    if (!chartData.find((data) => data.name === event.classType && data.parent === event.location)) {
+  // if (event.location && locations.includes(event.location) && event.classType && ["TP", "TD", "CM"].includes(event.classType)) {
+  //   if (!chartData.find((data) => data.name === event.classType && data.parent === event.location)) {
+  //     chartData.push({
+  //       id: `${event.location}-${event.classType}`,
+  //       parent: event.location,
+  //       name: event.classType,
+  //       value: totalUsage[event.location][event.classType],
+  //     });
+  //   }
+  // }
+
+  if (event.location && locations.includes(event.location) && event.semestre) {
+    if (!chartData.find((data) => data.name === event.semestre && data.parent === event.location)) {
       chartData.push({
-        id: `${event.location}-${event.classType}`,
+        id: `${event.location}-${event.semestre}`,
         parent: event.location,
-        name: event.classType,
-        value: totalUsage[event.location][event.classType],
+        name: event.semestre,
+        value: totalSemestre[event.location][event.semestre],
       });
     }
   }
+
+  // if (event.location && locations.includes(event.location) && event.ressources) {
+  //   if (!chartData.find((data) => data.name === event.ressources && data.parent === event.location)) {
+  //     chartData.push({
+  //       id: `${event.location}-${event.ressources}`,
+  //       parent: event.location,
+  //       name: event.ressources,
+  //       value: totalRessource[event.location][event.ressources],
+  //     });
+  //   }
+  // }
 });
 
 console.log(chartData);
