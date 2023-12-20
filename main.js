@@ -3,9 +3,6 @@ import { M } from "./js/model.js";
 
 await M.init(); // on attend que les données soient chargées
 
-// get location of each M.getEvents("mmi1") and get the start and end time of each event
-// get the difference between end and start time
-
 let events = [
   ...M.getEvents("mmi1"),
   ...M.getEvents("mmi2"),
@@ -22,11 +19,6 @@ let classes = events.map((event) => {
     semestre: event.semestre,
   };
 });
-
-// event.title.match(/^(R|(SA))[EÉ ]{0,2}[1-6](\.Crea)?(\.DWeb-DI)?\.[0-9]{2}/)?.[0]; -> pour recuperer les ressources
-// "S" + event.title.match(/^(R|(SA))[EÉ ]{0,2}([1-6])/)?.[3]
-
-// /^(R|(SA))[EÉ ]{0,2}[1-6] -> pour recuperer le semestre
 
 console.log(classes);
 
@@ -83,14 +75,6 @@ groups.forEach((group) => {
     text: group,
   });
 });
-
-//V.chart.series = seriesObj1;
-//V.classcalendar["scale-x"].labels = Object.keys(totalClassType);
-
-
-
-// Itération 3
-// Pour une salle (sélectionnable), visualiser son utilisation par semestre, par quelles ressources ou SAÉ, et pour quels usages (CM, TD, TP)
 
 // recuperer la duration par location de chaque ressources
 let totalRessource = {};
@@ -235,7 +219,6 @@ zingchart.loadModules('bubble-pack', function () {
     width: '100%',
   });
 });
-
 
 // eventlistener on select calendartype
 
