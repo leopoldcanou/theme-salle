@@ -65,7 +65,7 @@ V.chartConfig = {
   itemLevel1: {
     backgroundColor: '#f5f5f5',
   },
-  series: chartData
+  series: [],
 };
 
 export { V };

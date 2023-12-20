@@ -163,37 +163,28 @@ classes.forEach((event) => {
 
 console.log(totalUsage);
 
+let chartLocations = [];
 
+let chartData = [{
+  id: 'all',
+  parent: '',
+  name: 'All',
+}];
 
-// les donnes doivent etre sous la forme suivante
-let salle = [
-  {
-    "semestre": {
-      "S1": 10,
-      "S2": 20,
-      "S3": 20,
-      "S4": 10,
-      "S5": 10,
-      "S6": 20
-    },
-    "ressources": {
-      "SAE": 10,
-      "R01": 20,
-      "R02": 20,
-      "R03": 10,
-      "R04": 10,
-      "SAE": 20
-    },
-    "usage": {
-      "CM": 10,
-      "TD": 20,
-      "TP": 20,
-    }
-  },]
+classes.forEach((event) => {
+  if (event.location && locations.includes(event.location) && !chartLocations.includes(event.location)) {
+    chartLocations.push(event.location);
+    chartData.push({
+      id: event.location,
+      parent: 'all',
+      name: event.location,
+    });
+  }
+});
 
+console.log(chartData);
 
-
-
+V.chartConfig.series = chartData;
 
 zingchart.loadModules('bubble-pack', function () {
   zingchart.render({
