@@ -63,6 +63,27 @@ V.chartConfig = {
       color: '#424242',
       fontSize: '10px',
       visible: null
+    },
+    stacked: true,
+    'stack-type': "normal",
+    // styles: [
+    //   "#33a8c7",
+    //   "#52e3e1",
+    //   "#a0e426",
+    //   "#fdf148",
+    //   "#ffab00",
+    //   "#f77976",
+    //   "#f050ae",
+    //   "#d883ff",
+    //   "#9336fd",
+    // ],
+    // "border-radius": "6px",
+    // border: "1px solid #dddddd",
+    animation: {
+      "sequence": "ANIMATION_BY_NODE",
+      effect: "ANIMATION_FADE_IN",
+      speed: 500,
+      method: "ANIMATION_FADE_OUT"
     }
   },
   _options: {
