@@ -87,24 +87,7 @@ groups.forEach((group) => {
 //V.chart.series = seriesObj1;
 //V.classcalendar["scale-x"].labels = Object.keys(totalClassType);
 
-// eventlistener on select calendartype
 
-let select = document.querySelector("#calendartype");
-
-select.addEventListener("change", () => {
-  if (select.value == "group") {
-    V.classcalendar.series = seriesObj1;
-  }
-  else if (select.value == "class") {
-    V.classcalendar.series = seriesObj2;
-  }
-  zingchart.render({
-    id: "myChart",
-    data: V.classcalendar, // on appelle V.classcalendar qui est dans view.js
-    height: "100%",
-    width: "100%",
-  });
-});
 
 // Itération 3
 // Pour une salle (sélectionnable), visualiser son utilisation par semestre, par quelles ressources ou SAÉ, et pour quels usages (CM, TD, TP)
@@ -161,7 +144,26 @@ console.log(totalUsage);
 
 let chartLocations = [];
 
+
 let chartData = [{
+  id: 'all',
+  parent: '',
+  name: 'All',
+}];
+
+let chartDataRessource = [{
+  id: 'all',
+  parent: '',
+  name: 'All',
+}];
+
+let chartDataSemestre = [{
+  id: 'all',
+  parent: '',
+  name: 'All',
+}];
+
+let chartDataCours = [{
   id: 'all',
   parent: '',
   name: 'All',
@@ -170,38 +172,48 @@ let chartData = [{
 classes.forEach((event) => {
   if (event.location && locations.includes(event.location) && !chartLocations.includes(event.location)) {
     chartLocations.push(event.location);
-    chartData.push({
+    chartDataRessource.push({
+      id: event.location,
+      parent: 'all',
+      name: event.location,
+    });
+    chartDataSemestre.push({
+      id: event.location,
+      parent: 'all',
+      name: event.location,
+    });
+    chartDataCours.push({
       id: event.location,
       parent: 'all',
       name: event.location,
     });
   }
 
-  // if (event.location && locations.includes(event.location) && event.classType && ["TP", "TD", "CM"].includes(event.classType)) {
-  //   if (!chartData.find((data) => data.name === event.classType && data.parent === event.location)) {
-  //     chartData.push({
-  //       id: `${event.location}-${event.classType}`,
-  //       parent: event.location,
-  //       name: event.classType,
-  //       value: totalUsage[event.location][event.classType],
-  //     });
-  //   }
-  // }
+  if (event.location && locations.includes(event.location) && event.classType && ["TP", "TD", "CM"].includes(event.classType)) {
+    if (!chartDataCours.find((data) => data.name === event.classType && data.parent === event.location)) {
+      chartDataCours.push({
+        id: `${event.location}-${event.classType}`,
+        parent: event.location,
+        name: event.classType,
+        value: totalUsage[event.location][event.classType],
+      });
+    }
+  }
 
-  // if (event.location && locations.includes(event.location) && event.semestre && semestre.includes(event.semestre)) {
-  //   if (!chartData.find((data) => data.name === event.semestre && data.parent === event.location)) {
-  //     chartData.push({
-  //       id: `${event.location}-${event.semestre}`,
-  //       parent: event.location,
-  //       name: event.semestre,
-  //       value: totalSemestre[event.location][event.semestre],
-  //     });
-  //   }
-  // }
+  if (event.location && locations.includes(event.location) && event.semestre && semestre.includes(event.semestre)) {
+    if (!chartDataSemestre.find((data) => data.name === event.semestre && data.parent === event.location)) {
+      chartDataSemestre.push({
+        id: `${event.location}-${event.semestre}`,
+        parent: event.location,
+        name: event.semestre,
+        value: totalSemestre[event.location][event.semestre],
+      });
+    }
+  }
 
   if (event.location && locations.includes(event.location) && event.ressources) {
-    if (!chartData.find((data) => data.name === event.ressources && data.parent === event.location)) {
-      chartData.push({
+    if (!chartDataRessource.find((data) => data.name === event.ressources && data.parent === event.location)) {
+      chartDataRessource.push({
         id: `${event.location}-${event.ressources}`,
         parent: event.location,
         name: event.ressources,
@@ -213,7 +225,7 @@ classes.forEach((event) => {
 
 console.log(chartData);
 
-V.chartConfig.series = chartData;
+V.chartConfig.series = chartDataRessource;
 
 zingchart.loadModules('bubble-pack', function () {
   zingchart.render({
@@ -221,5 +233,30 @@ zingchart.loadModules('bubble-pack', function () {
     data: V.chartConfig,
     height: '100%',
     width: '100%',
+  });
+});
+
+
+// eventlistener on select calendartype
+
+let select = document.querySelector("#calendartype");
+
+select.addEventListener("change", () => {
+  if (select.value == "cours") {
+    V.chartConfig.series = chartDataCours;
+  }
+  else if (select.value == "semestre") {
+    V.chartConfig.series = chartDataSemestre;
+  }
+  else if (select.value == "ressource") {
+    V.chartConfig.series = chartDataRessource;
+    console.log(chartDataRessource);
+  }
+
+  zingchart.render({
+    id: "myChart",
+    data: V.chartConfig, // on appelle V.classcalendar qui est dans view.js
+    height: "100%",
+    width: "100%",
   });
 });
