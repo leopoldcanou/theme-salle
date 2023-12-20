@@ -118,7 +118,53 @@ select.addEventListener("change", () => {
 // Itération 3
 // Pour une salle (sélectionnable), visualiser son utilisation par semestre, par quelles ressources ou SAÉ, et pour quels usages (CM, TD, TP)
 
-// recuperer la duration  ressources et le semestre,
+// recuperer la duration par location de chaque ressources
+let totalRessource = {};
+classes.forEach((event) => {
+  if (locations.includes(event.location) && event.ressources) {
+    if (!totalRessource[event.location]) {
+      totalRessource[event.location] = {};
+    }
+    if (!totalRessource[event.location][event.ressources]) {
+      totalRessource[event.location][event.ressources] = 0;
+    }
+    totalRessource[event.location][event.ressources] += event.duration;
+  }
+});
+
+console.log(totalRessource);
+
+// recuperer la duration par location de chaque semestre
+let totalSemestre = {};
+classes.forEach((event) => {
+  if (locations.includes(event.location) && event.semestre) {
+    if (!totalSemestre[event.location]) {
+      totalSemestre[event.location] = {};
+    }
+    if (!totalSemestre[event.location][event.semestre]) {
+      totalSemestre[event.location][event.semestre] = 0;
+    }
+    totalSemestre[event.location][event.semestre] += event.duration;
+  }
+});
+
+console.log(totalSemestre);
+
+// recuperer la duration par location de chaque usage
+let totalUsage = {};
+classes.forEach((event) => {
+  if (locations.includes(event.location) && event.classType && ["TP", "TD", "CM"].includes(event.classType)) {
+    if (!totalUsage[event.location]) {
+      totalUsage[event.location] = {};
+    }
+    if (!totalUsage[event.location][event.classType]) {
+      totalUsage[event.location][event.classType] = 0;
+    }
+    totalUsage[event.location][event.classType] += event.duration;
+  }
+});
+
+console.log(totalUsage);
 
 // les donnes doivent etre sous la forme suivante
 let salle = [
