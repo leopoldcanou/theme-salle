@@ -9,8 +9,10 @@ class Event {
   #duration;
   #group;
   #classType;
+  #ressource; // fait
+  #semestre; // fait
 
-  constructor(id, summary, description, start, end, location, duration, group, classType) {
+  constructor(id, summary, description, start, end, location, duration, group, classType, ressource) {
     this.#id = id;
     this.#summary = summary.slice(0, summary.lastIndexOf(","));
     this.#description = description;
@@ -27,6 +29,9 @@ class Event {
     this.#group = this.groups.toString().includes("BUT1") ? "BUT1" : this.groups.toString().includes("BUT2") ? "BUT2" : this.groups.toString().includes("BUT3") ? "BUT3" : this.groups;
 
     this.#classType = summary.includes("CM") ? "CM" : summary.includes("TD") ? "TD" : summary.includes("TP") ? "TP" : summary;
+
+    this.#ressource = summary.match(/^(R|(SA))[EÉ ]{0,2}[1-6](\.Crea)?(\.DWeb-DI)?\.[0-9]{2}/)?.[0]; // a faire
+    this.#semestre = "S" + summary.match(/^(R|(SA))[EÉ ]{0,2}([1-6])/)?.[3]; // fait
   }
 
   get id() {
@@ -68,6 +73,14 @@ class Event {
   get classType() {
     return this.#classType;
   }
+
+  get ressource() { // fait
+    return this.#ressource;
+  }
+
+  get semestre() { // fait
+    return this.#semestre;
+  }
   // retourne un objet contenant les informations de l'événement
   // dans un format compatible avec Toast UI Calendar (voir https://nhn.github.io/tui.calendar/latest/EventObject)
   toObject() {
@@ -82,6 +95,8 @@ class Event {
       duration: this.#duration,
       group: this.#group,
       classType: this.#classType,
+      ressource: this.#ressource, //fait
+      semestre: this.#semestre, // fait
     };
   }
 }
