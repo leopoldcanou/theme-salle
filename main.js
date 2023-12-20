@@ -72,11 +72,7 @@ let seriesObj2 = [];
 classTypes.forEach((classType) => {
   let values = locations.map((location) => totalClassType[location][classType]);
   seriesObj1.push({
-    id: 'TD',
-    parent: 'R01',
-    name: 'TD',
-    value: values,
-
+    values: values,
     text: classType,
   });
 });
@@ -95,14 +91,7 @@ groups.forEach((group) => {
 
 
 
-zingchart.loadModules('bubble-pack', function () {
-  zingchart.render({
-    id: 'myChart',
-    data: V.chartConfig,
-    height: '100%',
-    width: '100%',
-  });
-});
+
 
 // eventlistener on select calendartype
 
@@ -174,6 +163,8 @@ classes.forEach((event) => {
 
 console.log(totalUsage);
 
+
+
 // les donnes doivent etre sous la forme suivante
 let salle = [
   {
@@ -199,3 +190,16 @@ let salle = [
       "TP": 20,
     }
   },]
+
+
+
+
+
+zingchart.loadModules('bubble-pack', function () {
+  zingchart.render({
+    id: 'myChart',
+    data: V.chartConfig,
+    height: '100%',
+    width: '100%',
+  });
+});

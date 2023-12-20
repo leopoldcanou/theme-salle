@@ -1,7 +1,7 @@
 let chartData = [{
   id: 'all',
   parent: '',
-  name: 'The World',
+  name: 'All',
 },
 
 {
@@ -48,57 +48,24 @@ let V = {};
 
 V.chartConfig = {
   type: 'bubble-pack',
-  options: {
-    containers: {
-
-      R01: {
-        height: '50%',
-        width: '33%',
-        x: '0%',
-        y: '0%',
-      },
-      R02: {
-        height: '50%',
-        width: '33%',
-        x: '33%',
-        y: '0%',
-      },
-
-    },
-
-    itemLevel1: {
-      backgroundColor: '#ddd',
-      borderWidth: '3px',
-      alpha: 1,
-      label: {
-        text: '%fullname',
-        fontSize: '13px',
-        fontWeight: 'bold',
-        padding: '2px',
-        offsetY: '-111px',
-      },
-    },
-    itemLevel2: {
-      backgroundColor: 'red',
-      borderWidth: '2px',
-      alpha: 1,
-      label: {
-        text: '%fullname',
-        fontSize: '13px',
-        fontWeight: 'bold',
-        padding: '2px',
-        offsetY: '',
-      },
-    },
-
-    minLevel: 1,
-    minSize: 3,
-    padding: '1px',
-  },
   plotarea: {
-    margin: '10 0 0 0',
+    margin: 10
   },
-  series: chartData,
+  _options: {
+    padding: 0,
+    minSize: 3,
+    groupFilter: ['asia', 'southamerica', 'africa', 'europe'],
+    format: {
+      short: true,
+      decimals: 2,
+      decimalsSeparator: '.',
+      thousandsSeparator: ','
+    }
+  },
+  itemLevel1: {
+    backgroundColor: '#f5f5f5',
+  },
+  series: chartData
 };
 
 export { V };
