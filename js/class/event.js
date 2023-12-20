@@ -33,7 +33,11 @@ class Event {
 
     this.#ressource = summary.match(/^(R|(SA))[EÉ ]{0,2}[1-6](\.Crea)?(\.DWeb-DI)?\.[0-9]{2}/)?.[0]; // a faire
     this.#semestre = "S" + summary.match(/^(R|(SA))[EÉ ]{0,2}([1-6])/)?.[3]; // fait
+<<<<<<< Updated upstream
     this.#semaine = Math.ceil(((this.#start - new Date(this.#start.getFullYear(), 0, 1)) + 1) / (24 * 60 * 60 * 1000 * 7));
+=======
+    this.#semaine = Math.ceil(((this.#start - new Date(this.#start.getFullYear(), 0, 1)) + 1) / (24 * 60 * 60 * 1000 * 7)) - 35;
+>>>>>>> Stashed changes
 
   }
 

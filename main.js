@@ -17,6 +17,7 @@ let classes = events.map((event) => {
     group: event.group,
     ressources: event.ressource,
     semestre: event.semestre,
+    semaine: event.semaine,
   };
 });
 
@@ -213,8 +214,37 @@ function updateHeatmapData(data) {
     height: "100%",
     width: "100%"
   });
+<<<<<<< Updated upstream
 }
 
 // Utilisation de la fonction avec vos données agrégées
 updateHeatmapData(aggregatedData);
 
+=======
+});
+
+
+
+
+
+
+console.log(M.getEvents("mmi1"));
+// Date de début et de fin de l'événement
+const startDateString = "2023-09-13T11:30:00.000Z";
+
+// Convertir les chaînes de caractères en objets Date
+const startDate = new Date(startDateString);
+
+// Fonction pour obtenir le numéro de semaine de l'année
+function getWeekNumber(date) {
+  const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+  const daysOffset = (date - firstDayOfYear) / 86400000; // Nombre de millisecondes en un jour
+  const weekNumber = Math.ceil((daysOffset + firstDayOfYear.getDay() + 1) / 7);
+  return weekNumber;
+}
+
+// Obtenir le numéro de semaine pour la date de début et de fin
+const startWeekNumber = getWeekNumber(startDate);
+
+console.log(`La semaine de l'année pour la date de début est : ${startWeekNumber}`);
+>>>>>>> Stashed changes
