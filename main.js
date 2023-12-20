@@ -241,5 +241,6 @@ select.addEventListener("change", () => {
     data: V.chartConfig, // on appelle V.classcalendar qui est dans view.js
     height: "100%",
     width: "100%",
+    defaults: myTheme,
   });
 });
