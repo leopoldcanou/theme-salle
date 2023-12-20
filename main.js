@@ -178,12 +178,37 @@ classes.forEach((event) => {
       id: event.location,
       parent: 'all',
       name: event.location,
-      value: 10,
+      // value: 10,
     });
   }
 });
 
 console.log(chartData);
+
+classes.forEach((event) => {
+  if (event.location && locations.includes(event.location) && !chartLocations.includes(event.location)) {
+    chartLocations.push(event.location);
+    chartData.push({
+      id: event.location,
+      parent: 'all',
+      name: event.location,
+    });
+  }
+
+  if (event.location && locations.includes(event.location) && event.classType && ["TP", "TD", "CM"].includes(event.classType)) {
+    if (!chartData.find((data) => data.name === event.classType && data.parent === event.location)) {
+      chartData.push({
+        id: `${event.location}-${event.classType}`,
+        parent: event.location,
+        name: event.classType,
+        value: totalUsage[event.location][event.classType],
+      });
+    }
+  }
+});
+
+console.log(chartData);
+
 
 V.chartConfig.series = chartData;
 
