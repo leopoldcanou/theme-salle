@@ -169,52 +169,55 @@ console.log(aggregatedData); // Assurez-vous que les données sont agrégées co
 
 
 
-function updateHeatmapData(data) {
-  // Aggregate the values
-  const aggregatedData = data.reduce((result, event) => {
-    const key = `${event.location}-${event.semaine}`;
+// Supposons que vous avez des données retournées par votre fonction updateHeatmapData
+const heatmapData = aggregatedData;
 
-    if (!result[key]) {
-      result[key] = {
-        semaine: event.semaine,
-        location: event.location,
-        totalDuration: 0
-      };
+// Conversion des données pour la heatmap ZingChart
+const zingchartData = [];
+const classLocations = new Set(); // Renommé en classLocations
+const weeks = new Set();
+
+// Obtenez la liste unique des emplacements et des semaines
+heatmapData.forEach(item => {
+  classLocations.add(item.location);
+  weeks.add(item.semaine);
+});
+
+// Triez les semaines et les emplacements
+const sortedLocations = Array.from(classLocations).sort();
+const sortedWeeks = Array.from(weeks).sort((a, b) => a - b);
+
+// Créez la structure de données nécessaire pour ZingChart
+sortedLocations.forEach(location => {
+  const locationData = {
+    text: location,
+    values: []
+  };
+
+  sortedWeeks.forEach(week => {
+    const dataForWeek = heatmapData.find(item => item.semaine === week && item.location === location);
+    if (dataForWeek) {
+      locationData.values.push(dataForWeek.totalDuration);
+    } else {
+      locationData.values.push(null); // ou 0 si vous préférez remplir avec 0
     }
-
-    result[key].totalDuration += event.duration;
-
-    return result;
-  }, {});
-
-  const aggregatedValues = Object.values(aggregatedData);
-
-  const seriesData = aggregatedValues.reduce((result, item) => {
-    const locationIndex = locations.indexOf(item.location);
-    if (locationIndex !== -1) {
-      if (!result[locationIndex]) {
-        result[locationIndex] = [];
-      }
-      result[locationIndex].push(item.totalDuration);
-    }
-    return result;
-  }, []);
-
-  const heatmapSeries = locations.map((location, index) => ({
-    values: seriesData[index] || Array(aggregatedValues.length).fill(0),
-    text: location
-  }));
-
-  V.HeatMap.series = heatmapSeries;
-
-  zingchart.render({
-    id: 'myChart',
-    data: V.HeatMap,
-    height: "100%",
-    width: "100%"
   });
-}
 
-// Utilisation de la fonction avec vos données agrégées
-updateHeatmapData(aggregatedData);
+  zingchartData.push(locationData);
+});
+
+// Créez le graphique ZingChart
+zingchart.render({
+  id: 'myChart',
+  data: {
+    type: 'heatmap',
+    series: zingchartData,
+    scaleY: {
+      values: sortedLocations
+    },
+    scaleX: {
+      values: sortedWeeks
+    }
+  }
+});
 
