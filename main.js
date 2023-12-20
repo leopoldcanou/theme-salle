@@ -1,7 +1,5 @@
 import { V } from "./js/view.js";
 import { M } from "./js/model.js";
-import zingchart from "zingchart";
-
 
 await M.init(); // on attend que les données soient chargées
 
