@@ -308,3 +308,222 @@ select.addEventListener("change", () => {
     width: "100%",
   });
 });
+
+
+
+// get the total duration of each group (BUT1, BUT2, BUT3)
+let totalGroup3 = {};
+locations.forEach((location) => {
+  totalGroup3[location] = {};
+  groups.forEach((group) => {
+    totalGroup3[location][group] = 0;
+  });
+});
+
+classes.forEach((event) => {
+  if (locations.includes(event.location) && groups.includes(event.group)) {
+    totalGroup3[event.location][event.group] += event.duration;
+  }
+});
+
+//get the total duration of each classType by location
+let totalClassType3 = {};
+classes.forEach((event) => {
+  if (locations.includes(event.location) && classTypes.includes(event.classType)) {
+    if (!totalClassType3[event.location]) {
+      totalClassType3[event.location] = {};
+    }
+    if (!totalClassType3[event.location][event.classType]) {
+      totalClassType3[event.location][event.classType] = 0;
+    }
+    totalClassType3[event.location][event.classType] += event.duration;
+  }
+});
+
+let seriesObj13 = [];
+let seriesObj23 = [];
+
+// Loop through classTypes
+classTypes.forEach((classType) => {
+  let values = locations.map((location) => totalClassType[location][classType]);
+  seriesObj13.push({
+    values: values,
+    text: classType,
+  });
+});
+
+groups.forEach((group) => {
+  let values = locations.map((location) => totalGroup[location][group]);
+  seriesObj23.push({
+    values: values,
+    text: group,
+  });
+});
+
+// recuperer la duration par location de chaque ressources
+let totalRessource3 = {};
+classes.forEach((event) => {
+  if (locations.includes(event.location) && event.ressources) {
+    if (!totalRessource3[event.location]) {
+      totalRessource3[event.location] = {};
+    }
+    if (!totalRessource3[event.location][event.ressources]) {
+      totalRessource3[event.location][event.ressources] = 0;
+    }
+    totalRessource3[event.location][event.ressources] += event.duration;
+  }
+});
+
+console.log(totalRessource3);
+
+// recuperer la duration par location de chaque semestre
+let totalSemestre3 = {};
+classes.forEach((event) => {
+  if (locations.includes(event.location) && event.semestre) {
+    if (!totalSemestre3[event.location]) {
+      totalSemestre3[event.location] = {};
+    }
+    if (!totalSemestre3[event.location][event.semestre]) {
+      totalSemestre3[event.location][event.semestre] = 0;
+    }
+    totalSemestre3[event.location][event.semestre] += event.duration;
+  }
+});
+
+console.log(totalSemestre3);
+
+// recuperer la duration par location de chaque usage
+let totalUsage3 = {};
+classes.forEach((event) => {
+  if (locations.includes(event.location) && event.classType && ["TP", "TD", "CM"].includes(event.classType)) {
+    if (!totalUsage3[event.location]) {
+      totalUsage3[event.location] = {};
+    }
+    if (!totalUsage3[event.location][event.classType]) {
+      totalUsage3[event.location][event.classType] = 0;
+    }
+    totalUsage3[event.location][event.classType] += event.duration;
+  }
+});
+
+console.log(totalUsage3);
+
+// render data
+
+let chartLocations = [];
+
+
+let chartData = [{
+  id: 'all',
+  parent: '',
+  name: 'All',
+}];
+
+let chartDataRessource = [{
+  id: 'all',
+  parent: '',
+  name: 'All',
+}];
+
+let chartDataSemestre = [{
+  id: 'all',
+  parent: '',
+  name: 'All',
+}];
+
+let chartDataCours = [{
+  id: 'all',
+  parent: '',
+  name: 'All',
+}];
+
+classes.forEach((event) => {
+  if (event.location && locations.includes(event.location) && !chartLocations.includes(event.location)) {
+    chartLocations.push(event.location);
+    chartDataRessource.push({
+      id: event.location,
+      parent: 'all',
+      name: event.location,
+    });
+    chartDataSemestre.push({
+      id: event.location,
+      parent: 'all',
+      name: event.location,
+    });
+    chartDataCours.push({
+      id: event.location,
+      parent: 'all',
+      name: event.location,
+    });
+  }
+
+  if (event.location && locations.includes(event.location) && event.classType && ["TP", "TD", "CM"].includes(event.classType)) {
+    if (!chartDataCours.find((data) => data.name === event.classType && data.parent === event.location)) {
+      chartDataCours.push({
+        id: `${event.location}-${event.classType}`,
+        parent: event.location,
+        name: event.classType,
+        value: totalUsage[event.location][event.classType],
+      });
+    }
+  }
+
+  if (event.location && locations.includes(event.location) && event.semestre && semestre.includes(event.semestre)) {
+    if (!chartDataSemestre.find((data) => data.name === event.semestre && data.parent === event.location)) {
+      chartDataSemestre.push({
+        id: `${event.location}-${event.semestre}`,
+        parent: event.location,
+        name: event.semestre,
+        value: totalSemestre[event.location][event.semestre],
+      });
+    }
+  }
+
+  if (event.location && locations.includes(event.location) && event.ressources) {
+    if (!chartDataRessource.find((data) => data.name === event.ressources && data.parent === event.location)) {
+      chartDataRessource.push({
+        id: `${event.location}-${event.ressources}`,
+        parent: event.location,
+        name: event.ressources,
+        value: totalRessource[event.location][event.ressources],
+      });
+    }
+  }
+});
+
+console.log(chartData);
+
+V.chartConfig.series = chartDataRessource;
+
+zingchart.loadModules('bubble-pack', function () {
+  zingchart.render({
+    id: 'myChart3',
+    data: V.chartConfig,
+    height: '100%',
+    width: '100%',
+  });
+});
+
+// eventlistener on select calendartype
+
+let select2 = document.querySelector("#calendartype");
+
+select2.addEventListener("change", () => {
+  if (select2.value == "cours") {
+    V.chartConfig.series = chartDataCours;
+  }
+  else if (select2.value == "semestre") {
+    V.chartConfig.series = chartDataSemestre;
+  }
+  else if (select2.value == "ressource") {
+    V.chartConfig.series = chartDataRessource;
+    console.log(chartDataRessource);
+  }
+
+  zingchart.render({
+    id: "myChart3",
+    data: V.chartConfig, // on appelle V.classcalendar qui est dans view.js
+    height: "100%",
+    width: "100%",
+  });
+});
