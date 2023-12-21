@@ -506,7 +506,7 @@ zingchart.loadModules('bubble-pack', function () {
 
 // eventlistener on select calendartype
 
-let select2 = document.querySelector("#calendartype");
+let select2 = document.querySelector("#calendartype3");
 
 select2.addEventListener("change", () => {
   if (select2.value == "cours") {
